@@ -31,7 +31,7 @@ class VideoWatermark:
     FUNCTION = "doit"
 
     def doit(self, text,audio=None, prompt=None, extra_pnginfo=None, unique_id=None, enable_watermark=None, watermark_image=None):
-        logging.info("[ComfyUI-Tools-Watermark]校验是否需要添加水印,enable_watermark: {}, watermark_image:{}".format(enable_watermark, watermark_image))
+        logging.info("[ComfyUI-Tools-Video-Combine]校验是否需要添加水印,enable_watermark: {}, watermark_image:{},audio:{}".format(enable_watermark, watermark_image, audio))
         output_video = text
         output_dir = folder_paths.get_output_directory() + "/"
 
@@ -54,17 +54,20 @@ class VideoWatermark:
                 "-filter_complex", "overlay=W-w-100:H-h-26",
                 output_video
             ]
+            # 将列表中的元素组合成一个字符串
+            command_str = " ".join(command)
+            logging.info(f"[ComfyUI-Tools-Video-Combine]command: {command_str}")
 
             try:
                 # 执行 ffmpeg 命令
                 subprocess.run(command, check=True)
-                logging.info(f"[ComfyUI-Tools-Watermark]Video processed successfully. Output saved to {output_video}")
+                logging.info(f"[ComfyUI-Tools-Video-Combine]Video processed successfully. Output saved to {output_video}")
             except subprocess.CalledProcessError as e:
-                error_message = f"[ComfyUI-Tools-Watermark]Error processing video: {str(e)}"
+                error_message = f"[ComfyUI-Tools-Video-Combine]Error processing video: {str(e)}"
                 logging.error(error_message)
                 raise Exception(error_message)
         else:
-            logging.info("[ComfyUI-Tools-Watermark]Watermark not enabled, skipping watermark processing.")
+            logging.info("[ComfyUI-Tools-Video-Combine]Watermark not enabled, skipping watermark processing.")
 
         # return {"ui": {"string": [output_video, unique_id]}, "result": (output_video, unique_id)}
 

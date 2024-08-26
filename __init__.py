@@ -7,6 +7,7 @@ print(f"### Loading: ComfyUI-Tools-Video-Combine ({version_str})")
 # 定义要加载的js
 node_list = [
     "video_watermark",
+    "load_audio_url",
 ]
 
 NODE_CLASS_MAPPINGS = {}
