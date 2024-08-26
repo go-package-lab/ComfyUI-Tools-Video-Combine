@@ -23,8 +23,8 @@ class VideoWatermark:
     CATEGORY = "Tools:VideoWatermarkMultiline"
     OUTPUT_NODE = True
 
-    RETURN_TYPES = ()
-    RETURN_NAMES = ()
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("Filename",)
     FUNCTION = "doit"
 
     def doit(self, text, prompt=None, extra_pnginfo=None, unique_id=None, enable_watermark=None, watermark_image=None):
@@ -63,17 +63,17 @@ class VideoWatermark:
 
         # return {"ui": {"string": [output_video, unique_id]}, "result": (output_video, unique_id)}
 
-        output_video = output_video.replace(output_dir,"")
-        text = text.replace(output_dir,"")
+        short_output_video = output_video.replace(output_dir,"")
+        short_input_video = text.replace(output_dir,"")
 
         out_datas = [
             {
-                "input": text,
-                "out_video": output_video,
+                "input": short_input_video,
+                "out_video": short_output_video,
                 "type": "output",
             }
         ]
-        return {"ui": {"datas": out_datas}, "result": ((output_video, unique_id),)}
+        return {"ui": {"datas": out_datas}, "result": (output_video,)}
 
     def generate_new_filename(self, file_path, suffix):
         # 获取文件名和扩展名
