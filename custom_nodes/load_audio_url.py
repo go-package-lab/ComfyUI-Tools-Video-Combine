@@ -28,7 +28,7 @@ class LoadAudioUrl:
         return {
             "required": {
                 "audio_url": ("STRING", {"default": "", "multiline": True}),
-                "duration": ("INT", {"default": 9}),
+                "duration": ("FLOAT", {"default": 9}),
             },
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
@@ -106,7 +106,7 @@ class LoadAudioUrl:
                 "type": "output",
             }
         ]
-        return {"ui": {"datas": out_datas}, "result": (audio_url,duration,)}
+        return {"ui": {"datas": out_datas}, "result": (output_file,duration,)}
 
     def generate_new_filename(self, file_path, suffix):
         # 获取文件名和扩展名
@@ -115,6 +115,7 @@ class LoadAudioUrl:
         new_file_path = f"{base_name}{suffix}{ext}"
         return new_file_path
     def format_seconds(self,seconds):
+        seconds = int(seconds)
         hours = seconds // 3600
         minutes = (seconds % 3600) // 60
         seconds = seconds % 60
