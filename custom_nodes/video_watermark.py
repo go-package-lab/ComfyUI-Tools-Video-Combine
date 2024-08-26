@@ -57,7 +57,9 @@ class VideoWatermark:
                 subprocess.run(command, check=True)
                 logging.info(f"[ComfyUI-Tools-Watermark]Video processed successfully. Output saved to {output_video}")
             except subprocess.CalledProcessError as e:
-                logging.error(f"[ComfyUI-Tools-Watermark]Error processing video: {e}")
+                error_message = f"[ComfyUI-Tools-Watermark]Error processing video: {str(e)}"
+                logging.error(error_message)
+                raise Exception(error_message)
         else:
             logging.info("[ComfyUI-Tools-Watermark]Watermark not enabled, skipping watermark processing.")
 
