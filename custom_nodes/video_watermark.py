@@ -10,7 +10,7 @@ class VideoWatermark:
         pass
 
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(cls):
         return {
             "required": {
                 "text": ("STRING", {"forceInput": True, "multiline": True}),
@@ -27,22 +27,23 @@ class VideoWatermark:
     RETURN_NAMES = ()
     FUNCTION = "doit"
 
-    def doit(self, text,  prompt=None, extra_pnginfo=None, unique_id=None,enable_watermark=None, watermark_image=None):
-        logging.info("[ComfyUI-Tools-Watermark]enable_watermark: {},watermark_image:{}".format(enable_watermark,watermark_image))
+    def doit(self, text, prompt=None, extra_pnginfo=None, unique_id=None, enable_watermark=None, watermark_image=None):
+        logging.info("[ComfyUI-Tools-Watermark]enable_watermark: {}, watermark_image:{}".format(enable_watermark, watermark_image))
         logging.info("校验是否需要添加水印")
-        if enable_watermark and watermark_image != "":
+        if enable_watermark and watermark_image:
             logging.info("需要添加水印")
-            # output_file_with_audio = f"{filename}_{counter:05}-watermark.{video_format['extension']}"
-            # output_file_with_audio_path = os.path.join(full_output_folder, output_file_with_audio)
             input_dir = folder_paths.get_input_directory()
             watermark_filename = os.path.join(input_dir, watermark_image)
             logging.info(watermark_filename)
-            output_video = "/Users/wcj/workspace/ai/ComfyUI/output/test.mp4"
+
+            # 生成新的文件名
+            output_video = self.generate_new_filename(text, "-watermark")
+
             # 构建 ffmpeg 命令
             command = [
                 "ffmpeg",
                 "-v", "error",
-                "-n", ""
+                "-y",
                 "-i", text,
                 "-i", watermark_filename,
                 "-filter_complex", "overlay=W-w-100:H-h-26",
@@ -52,14 +53,20 @@ class VideoWatermark:
             try:
                 # 执行 ffmpeg 命令
                 subprocess.run(command, check=True)
-                logging.info(f"Video processed successfully. Output saved to {output_video}")
+                logging.info(f"[ComfyUI-Tools-Watermark]Video processed successfully. Output saved to {output_video}")
             except subprocess.CalledProcessError as e:
-                logging.error(f"Error processing video: {e}")
+                logging.error(f"[ComfyUI-Tools-Watermark]Error processing video: {e}")
         else:
-            logging.info("Watermark not enabled, skipping watermark processing.")
+            logging.info("[ComfyUI-Tools-Watermark]Watermark not enabled, skipping watermark processing.")
 
+        return {"ui": {"string": [text, unique_id]}, "result": (text, unique_id)}
 
-        return {"ui": {"string": [text, unique_id, ]}, "result": (text, unique_id,)}
+    def generate_new_filename(self, file_path, suffix):
+        # 获取文件名和扩展名
+        base_name, ext = os.path.splitext(file_path)
+        # 生成新的文件名
+        new_file_path = f"{base_name}{suffix}{ext}"
+        return new_file_path
 
 NODE_CLASS_MAPPINGS = {
     "Tools:VideoWatermark": VideoWatermark,
