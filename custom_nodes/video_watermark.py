@@ -17,6 +17,9 @@ class VideoWatermark:
                 "enable_watermark": ("BOOLEAN", {"default": False}),
                 "watermark_image": ("STRING", {"default": "watermark.png"}),
             },
+            "optional": {
+                "audio": ("STRING", {"forceInput": True, "multiline": True}),
+            },
             "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO", "unique_id": "UNIQUE_ID"},
         }
 
@@ -27,7 +30,7 @@ class VideoWatermark:
     RETURN_NAMES = ("Filename",)
     FUNCTION = "doit"
 
-    def doit(self, text, prompt=None, extra_pnginfo=None, unique_id=None, enable_watermark=None, watermark_image=None):
+    def doit(self, text,audio=None, prompt=None, extra_pnginfo=None, unique_id=None, enable_watermark=None, watermark_image=None):
         logging.info("[ComfyUI-Tools-Watermark]校验是否需要添加水印,enable_watermark: {}, watermark_image:{}".format(enable_watermark, watermark_image))
         output_video = text
         output_dir = folder_paths.get_output_directory() + "/"

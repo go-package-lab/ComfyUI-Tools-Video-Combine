@@ -2,7 +2,7 @@ import importlib
 
 version_code = [0, 0, 1]
 version_str = f"V{version_code[0]}.{version_code[1]}" + (f'.{version_code[2]}' if len(version_code) > 2 else '')
-print(f"### Loading: ComfyUI-Tools-Watermark ({version_str})")
+print(f"### Loading: ComfyUI-Tools-Video-Combine ({version_str})")
 
 # 定义要加载的js
 node_list = [
