@@ -28,8 +28,10 @@ class VideoWatermark:
     FUNCTION = "doit"
 
     def doit(self, text, prompt=None, extra_pnginfo=None, unique_id=None, enable_watermark=None, watermark_image=None):
-        logging.info("[ComfyUI-Tools-Watermark]enable_watermark: {}, watermark_image:{}".format(enable_watermark, watermark_image))
-        logging.info("校验是否需要添加水印")
+        logging.info("[ComfyUI-Tools-Watermark]校验是否需要添加水印,enable_watermark: {}, watermark_image:{}".format(enable_watermark, watermark_image))
+        output_video = text
+        output_dir = folder_paths.get_output_directory() + "/"
+
         if enable_watermark and watermark_image:
             logging.info("需要添加水印")
             input_dir = folder_paths.get_input_directory()
@@ -59,7 +61,19 @@ class VideoWatermark:
         else:
             logging.info("[ComfyUI-Tools-Watermark]Watermark not enabled, skipping watermark processing.")
 
-        return {"ui": {"string": [text, unique_id]}, "result": (text, unique_id)}
+        # return {"ui": {"string": [output_video, unique_id]}, "result": (output_video, unique_id)}
+
+        output_video = output_video.replace(output_dir,"")
+        text = text.replace(output_dir,"")
+
+        out_datas = [
+            {
+                "input": text,
+                "out_video": output_video,
+                "type": "output",
+            }
+        ]
+        return {"ui": {"datas": out_datas}, "result": ((output_video, unique_id),)}
 
     def generate_new_filename(self, file_path, suffix):
         # 获取文件名和扩展名
