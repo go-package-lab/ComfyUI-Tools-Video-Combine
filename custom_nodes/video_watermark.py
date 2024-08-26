@@ -80,7 +80,7 @@ class VideoWatermark:
             logging.info("[ComfyUI-Tools-Video-Combine]Watermark not enabled, skipping watermark processing.")
 
         # 添加音频判断
-        if audio!="":
+        if audio is not None and audio!= "":
             logging.info("需要添加音频")
             watermark_filename = os.path.join(input_dir, watermark_image)
             logging.info(watermark_filename)
