@@ -122,16 +122,8 @@ class VideoWatermark:
             logging.info("[ComfyUI-Tools-Video-Combine]audio not enabled, skipping audio processing.")
 
         short_output_video = output_video.replace(output_dir,"")
-        short_input_video = text.replace(output_dir,"")
 
         out_datas = [
-            {
-                "filename": short_input_video,
-                "subfolder": "",
-                "type": "output",
-                "format": "video/h264-mp4",
-                "frame_rate": -1
-            },
             {
                 "filename": short_output_video,
                 "subfolder": "",
