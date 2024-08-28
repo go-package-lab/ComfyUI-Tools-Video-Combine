@@ -126,12 +126,21 @@ class VideoWatermark:
 
         out_datas = [
             {
-                "input": short_input_video,
-                "out_video": short_output_video,
+                "filename": short_input_video,
+                "subfolder": "",
                 "type": "output",
+                "format": "video/h264-mp4",
+                "frame_rate": -1
+            },
+            {
+                "filename": short_output_video,
+                "subfolder": "",
+                "type": "output",
+                "format": "video/h264-mp4",
+                "frame_rate": -1
             }
         ]
-        return {"ui": {"datas": out_datas}, "result": (output_video,)}
+        return {"ui": {"gifs": out_datas}, "result": (output_video,)}
 
     def generate_new_filename(self, file_path, suffix):
         # 获取文件名和扩展名
