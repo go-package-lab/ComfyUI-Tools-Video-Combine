@@ -8,6 +8,7 @@ print(f"### Loading: ComfyUI-Tools-Video-Combine ({version_str})")
 node_list = [
     "video_watermark",
     "load_audio_url",
+    "image2video",
 ]
 
 NODE_CLASS_MAPPINGS = {}
