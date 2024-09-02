@@ -3,11 +3,20 @@ import subprocess
 
 import logging
 import time
+from datetime import datetime
 
 import torch
 
 import folder_paths
 from nodes import SaveImage
+
+effect = ["fade", "wipeleft", "wiperight", "wipeup", "wipedown", "slideleft", "slideright", "slideup", "slidedown",
+          "circlecrop", "rectcrop", "distance", "fadeblack", "fadewhite", "radial", "smoothleft", "smoothright",
+          "smoothup", "smoothdown", "circleopen", "circleclose", "vertopen", "vertclose", "horzopen", "horzclose",
+          "dissolve", "pixelize", "diagtl", "diagtr", "diagbl", "diagbr", "hlslice", "hrslice", "vuslice", "vdslice",
+          "hblur", "fadegrays", "wipetl", "wipetr", "wipebl", "wipebr", "squeezeh", "squeezev", "zoomin", "fadefast",
+          "fadeslow", "hlwind", "hrwind", "vuwind", "vdwind", "coverleft", "coverright", "coverup", "coverdown",
+          "revealleft", "revealright", "revealup", "revealdown"]
 
 
 class Image2video:
@@ -20,10 +29,10 @@ class Image2video:
             "required": {
                 "image_1": ("IMAGE", ),
                 "image_2": ("IMAGE", ),
-                "image_effect_1_2": (["pixelize", "slideleft", "slideright"],),
-                "image_effect_2_3": (["pixelize", "slideleft", "slideright"],),
-                "image_effect_3_4": (["pixelize", "slideleft", "slideright"],),
-                "image_effect_4_5": (["pixelize", "slideleft", "slideright"],),
+                "image_effect_1_2": (effect,),
+                "image_effect_2_3": (effect,),
+                "image_effect_3_4": (effect,),
+                "image_effect_4_5": (effect,),
                 "image_duration": ("INT", {"default": 3}),
                 "effect_duration": ("INT", {"default": 3}),
                 "video_width": ("INT", {"default": 720}),
@@ -41,8 +50,8 @@ class Image2video:
     CATEGORY = "Tools:Image2videoMultiline"
     OUTPUT_NODE = True
 
-    RETURN_TYPES = ("IMAGE", "STRING",)
-    RETURN_NAMES = ("IMAGES", "Filename",)
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("Filename",)
     FUNCTION = "doit"
 
 
@@ -60,7 +69,8 @@ class Image2video:
         scale=f"{video_width}:{video_height}"
 
         # 生成新的文件名
-        output_video_path = os.path.join(output_dir, filename_prefix + ".mp4")
+        custom_time_str = datetime.now().strftime("%m%d-%H_%M_%S")
+        output_video_path = os.path.join(output_dir, filename_prefix + custom_time_str+".mp4")
 
         command = []
         total_image=2
@@ -211,7 +221,16 @@ class Image2video:
 
         short_output_video = os.path.basename(output_video_path)
 
-        return (None, short_output_video)  # 返回空的IMAGES和视频文件名
+        out_datas = [
+            {
+                "filename": short_output_video,
+                "subfolder": "",
+                "type": "output",
+                "format": "video/h264-mp4",
+                "frame_rate": -1
+            }
+        ]
+        return {"ui": {"gifs": out_datas}, "result": (output_video_path,)}
 
     def generate_new_filename(self, file_path, suffix):
         # 获取文件名和扩展名
