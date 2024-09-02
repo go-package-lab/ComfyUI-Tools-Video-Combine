@@ -153,8 +153,8 @@ class Image2video:
                     f"[2:v]scale={scale},setsar=1[v2];"
                     f"[3:v]scale={scale},setsar=1[v3];"
                     f"[v0][v1]xfade=transition={image_effect_1_2}:duration={effect_duration}:offset={image_duration}[v01];"
-                    f"[v01][v2]xfade=transition={image_effect_2_3}:duration={effect_duration}:offset={image_total_basic_second+effect_duration}[v02];"
-                    f"[v02][v3]xfade=transition={image_effect_3_4}:duration={effect_duration}:offset={image_total_basic_second*2+effect_duration}[v03];"
+                    f"[v01][v2]xfade=transition={image_effect_2_3}:duration={effect_duration}:offset={image_duration*2+effect_duration}[v02];"
+                    f"[v02][v3]xfade=transition={image_effect_3_4}:duration={effect_duration}:offset={image_duration*3+effect_duration}[v03];"
                 ),
                 "-map", "[v03]",
                 "-pix_fmt", "yuv420p",
@@ -187,9 +187,9 @@ class Image2video:
                     f"[3:v]scale={scale},setsar=1[v3];"
                     f"[4:v]scale={scale},setsar=1[v4];"
                     f"[v0][v1]xfade=transition={image_effect_1_2}:duration={effect_duration}:offset={image_duration}[v01];"
-                    f"[v01][v2]xfade=transition={image_effect_2_3}:duration={effect_duration}:offset={image_total_basic_second + effect_duration}[v02];"
-                    f"[v02][v3]xfade=transition={image_effect_3_4}:duration={effect_duration}:offset={image_total_basic_second * 2 + effect_duration}[v03];"
-                    f"[v03][v4]xfade=transition={image_effect_4_5}:duration={effect_duration}:offset={image_total_basic_second * 3 + effect_duration}[v04];"
+                    f"[v01][v2]xfade=transition={image_effect_2_3}:duration={effect_duration}:offset={image_duration*2+effect_duration}[v02];"
+                    f"[v02][v3]xfade=transition={image_effect_3_4}:duration={effect_duration}:offset={image_duration*3+effect_duration}[v03];"
+                    f"[v03][v4]xfade=transition={image_effect_4_5}:duration={effect_duration}:offset={image_duration*4+effect_duration}[v04];"
                 ),
                 "-map", "[v04]",
                 "-pix_fmt", "yuv420p",
