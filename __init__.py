@@ -9,6 +9,7 @@ node_list = [
     "video_watermark",
     "load_audio_url",
     "image2video",
+    "copy_file",
 ]
 
 NODE_CLASS_MAPPINGS = {}
