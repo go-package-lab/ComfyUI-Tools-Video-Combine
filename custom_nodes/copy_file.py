@@ -20,6 +20,7 @@ class CopyFile:
                 "target_dir": ("STRING", {"default": "nas"}),
                 "subfolder": ("STRING", {"default": "taskid"}),
                 "target_filename_suffix": ("STRING", {"default": ""}),
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
             },
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
@@ -31,7 +32,7 @@ class CopyFile:
     RETURN_NAMES = ("Filename",)
     FUNCTION = "doit"
 
-    def doit(self, file_path,target_dir, subfolder,target_filename_suffix,unique_id=None):
+    def doit(self, file_path,target_dir, subfolder,target_filename_suffix,seed,unique_id=None):
         logging.info("[ComfyUI-Tools-Video-Combine]文件拷贝,file_path: {}, target_dir:{},subfolder:{}".format(file_path, target_dir,subfolder))
         output_dir = folder_paths.get_output_directory()
         # 删除最后一层目录名
@@ -48,7 +49,7 @@ class CopyFile:
         if subfolder=="":
             output_video_path = f"{nas_directory}/{base_name}{target_filename_suffix}{ext}"
         else:
-            output_video_path = f"{nas_directory}/{subfolder}/{base_name}{target_filename_suffix}{ext}"
+            output_video_path = f"{nas_directory}/{subfolder}/video{target_filename_suffix}{ext}"
 
         # 获取目标目录路径
         destination_dir = os.path.dirname(output_video_path)
