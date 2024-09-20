@@ -11,6 +11,7 @@ node_list = [
     "image2video",
     "copy_file",
     "preview_video",
+    "set_value",
 ]
 
 NODE_CLASS_MAPPINGS = {}
