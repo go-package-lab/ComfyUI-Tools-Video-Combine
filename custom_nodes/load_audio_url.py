@@ -27,10 +27,13 @@ class LoadAudioUrl:
     def INPUT_TYPES(cls):
         return {
             "required": {
+                "switch": ("BOOLEAN", {"default": False}),
+                "audio_url": ("STRING", {"default": "", "multiline": True}),
                 "duration": ("FLOAT", {"default": 9}),
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
             },
             "optional":{
-                "audio_url": ("STRING", {"default": "", "multiline": True}),
+
             },
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
@@ -42,7 +45,9 @@ class LoadAudioUrl:
     RETURN_NAMES = ("Audio",)
     FUNCTION = "doit"
 
-    def doit(self, audio_url, duration=0, unique_id=None):
+    def doit(self, audio_url, switch=False, duration=0, seed=0, unique_id=None):
+        if switch==False or audio_url == '':
+            return {"result": ("", 0,)}
         logging.info("[ComfyUI-Tools-Video-Combine]LoadAudioUrl,{},duration:{}".format(audio_url,duration))
         input_dir = folder_paths.get_input_directory()
         output_dir = folder_paths.get_output_directory()

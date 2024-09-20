@@ -59,6 +59,7 @@ class VideoWatermark:
                 "-i", text,
                 "-i", watermark_filename,
                 "-c:v", cv_name,
+                "-map_metadata", "-1",
                 "-filter_complex", "overlay=W-w-100:H-h-26",
                 output_video
             ]
