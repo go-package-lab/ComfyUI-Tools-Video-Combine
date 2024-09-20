@@ -27,8 +27,10 @@ class LoadAudioUrl:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "audio_url": ("STRING", {"default": "", "multiline": True}),
                 "duration": ("FLOAT", {"default": 9}),
+            },
+            "optional":{
+                "audio_url": ("STRING", {"default": "", "multiline": True}),
             },
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
