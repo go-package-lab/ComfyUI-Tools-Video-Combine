@@ -12,6 +12,7 @@ node_list = [
     "copy_file",
     "preview_video",
     "set_value",
+    "set_string",
 ]
 
 NODE_CLASS_MAPPINGS = {}
