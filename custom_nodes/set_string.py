@@ -25,7 +25,7 @@ class SetString:
     OUTPUT_NODE = True
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("string",)
+    RETURN_NAMES = ("STRING",)
     FUNCTION = "doit"
 
     def doit(self, string="",unique_id=None):
